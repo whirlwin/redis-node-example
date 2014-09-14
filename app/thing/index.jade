@@ -1,0 +1,34 @@
+extends ../common/layout
+
+block content
+  h1 Node Redis Example
+  div
+    form#setForm
+      fieldset
+        legend Input Something
+        input(type='text', name='thingKey', placeholder='E.g. foo')
+        input(type='text', name='thingValue', placeholder='E.g. bar')
+        input(type='submit', value='Set')
+    form#getForm
+      fieldset
+        legend Retrieve Something
+        input(type='text', name='thingKey', placeholder='E.g. foo')
+        input(type='submit', value='Get')
+    div#value
+
+  script(type='text/javascript').
+    Zepto(function($) {
+
+      $('#setForm').submit(function() {
+        $.post('/set-thing', $('#setForm').serialize());
+        return false;
+      });
+
+      $('#getForm').submit(function() {
+        $.get('/get-thing', $('#getForm').serialize(), function(res) {
+          $('#value').text(res);
+        });
+        return false;
+      });
+    });
+
